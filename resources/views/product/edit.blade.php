@@ -1,13 +1,13 @@
 @extends('layouts.admin_page')
 
 @section('title')
-New Product
+Edit Product {{ucfirst($product->title)}}
 @endsection
 
 @section('content')
 <form   id="product_form" 
         method="POST" 
-        action="{{route('product.store')}}"
+        action="{{route('product.update', [$product])}}"
         class="flex flex-col  justify-center" 
         enctype="multipart/form-data"
 >
@@ -20,7 +20,7 @@ New Product
             name="title" 
             type="text" 
             required
-            value="{{old('title')}}"
+            value="{{old('title', $product->title)}}"
             placeholder="Product Title"
         >
     </div>
@@ -35,7 +35,7 @@ New Product
                     name="category_id"
                 >
                     @foreach ($categories as $category)
-                    <option value="{{$category->id}}" @if($category->id == old('category_id') ) selected @endif>{{strtoupper($category->title)}} </option>
+                    <option value="{{$category->id}}" @if($category->id == old('category_id', $product->category_id) ) selected @endif>{{strtoupper($category->title)}} </option>
                     @endforeach
                 </select>
                 {{-- down arrow logo --}}
@@ -55,7 +55,7 @@ New Product
                 name="price" 
                 type="text" 
                 required
-                value="{{old('price')}}"
+                value="{{old('price', $product->price)}}"
                 placeholder="Price"
             >
         </div>
@@ -67,7 +67,7 @@ New Product
                 id="discount_price"
                 name="discount_price" 
                 type="text" 
-                value="{{old('discount_price')}}"
+                value="{{old('discount_price', $product->discount_price)}}"
                 placeholder="Discount Price"
             >
         </div>
@@ -81,7 +81,7 @@ New Product
                 name="description"
                 cols="30" rows="2"
                 placeholder="Describe Product"
-        >{{old('description')}}</textarea>
+        >{{old('description', $product->description)}}</textarea>
     </div>
     <div class="w-full rounded">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="photo">
@@ -94,6 +94,9 @@ New Product
             placeholder="import picture"
             accept="image/png, image/jpeg, image/jpg, image/bmp"
         >
+        @if ($product->photo)
+            <img src="{{asset('img/products/'.$product->photo) }}" alt="">
+        @endif
     </div>
     
         
@@ -105,7 +108,7 @@ New Product
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        <span>Add Product</span>
+        <span>Edit Product</span>
 
     </button>
 </form>

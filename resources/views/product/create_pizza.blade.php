@@ -61,7 +61,7 @@ New Pizza
                 name="description"
                 cols="30" rows="2"
                 placeholder="Describe Pizza"
-        ></textarea>
+        >{{old('description')}}</textarea>
     </div>
     <div class="w-full rounded">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="photo">

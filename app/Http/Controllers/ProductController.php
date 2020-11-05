@@ -20,10 +20,20 @@ class ProductController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = [];
+        $allProducts = [];
         foreach($categories as $category){
             $allProducts[$category->title] = Product::where('category_id', $category->id)->get();
+            if($category->title == 'pizza'){
+                foreach($allProducts['pizza'] as $pizza){
+                    $pizza->variationsCount = $pizza->getVariations->count();
+                    $pizza->variations = $pizza->getVariations;
+                }
+            }
+            foreach($allProducts[$category->title] as $product){
+                $product->category = $product->getCategory->title;
+            }
         }
+
         return view('product.index', compact('allProducts'));
     }
 
@@ -129,7 +139,15 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product->category = $product->getCategory->title;
+        if($product->category_id == 1) {
+            $product->variationsCount = $product->getVariations->count();
+            $product->variations = $product->getVariations;
+            foreach($product->variations as $var){
+                $var->size = $var->getSize->title;
+            }
+        }
+        return view('product.show', compact('product'));
     }
 
     /**
@@ -140,7 +158,28 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::where('title','<>','pizza')->get();
+        $product->category = $product->getCategory->title;
+        return view('product.edit', compact('product','categories'));
+    }
+
+    public function editPizza(Product $product)
+    {
+        $sizes = Size::all();
+        $product->variationsCount = $product->getVariations->count();
+        $product->variations = $product->getVariations;
+        return view('product.edit_pizza', ['pizza' => $product, 'sizes' => $sizes]);
+    }
+
+    public function editPizzaVariation()
+    {
+        $sizes = Size::all();
+        $html = View::make('product.edit_pizza_variation')->with(compact('sizes'))->render();
+        return Response::json([
+            'html' => $html,
+            'state' => 'OK'
+        ]);
+        
     }
 
     /**
@@ -151,6 +190,10 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
+    {
+        //
+    }
+    public function updatePizza(Request $request, Product $product)
     {
         //
     }
