@@ -75,3 +75,16 @@ function priceCheck(value){
     }
     return true;
 }
+
+if(document.querySelector('.pizza-button')){
+    document.querySelectorAll('.pizza-button').forEach(button => button.addEventListener('click', expandPizza));
+    document.querySelectorAll('.product-image').forEach(image => image.addEventListener('click', expandPizza));
+}
+
+function expandPizza(e){
+    console.log(e.target.getAttribute('data-id'));
+    const index = parseInt(e.target.getAttribute('data-id'));
+    console.log(typeof index);
+    console.log(index);
+    console.log(allProducts[index-1]);
+}

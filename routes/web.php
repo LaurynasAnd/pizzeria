@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariationController;
+use App\Http\Controllers\BuyerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,7 +59,7 @@ Route::group(['prefix' => 'admin/variations'], function(){
     Route::get('pdf/{variation}', [VariationController::class, 'pdf'])->name('variation.pdf');
  });
 
-Route::group(['prefix' => 'buyers'], function(){
+Route::group(['prefix' => '/'], function(){
     Route::get('', [BuyerController::class, 'index'])->name('buyer.index');
     Route::get('create', [BuyerController::class, 'create'])->name('buyer.create');
     Route::post('store', [BuyerController::class, 'store'])->name('buyer.store');

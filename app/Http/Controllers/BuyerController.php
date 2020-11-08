@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buyer;
+use App\Models\Product;
+use App\Models\Variation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Response;
 
 class BuyerController extends Controller
 {
@@ -14,7 +18,22 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        foreach($products as $product){
+            $product->price = str_replace('.',',',$product->price);
+            $product->discount_price = str_replace('.',',',$product->discount_price);
+        }
+        $pizzas = $products->filter(fn($cat) => ($cat->category_id == 1));
+        $snacks = $products->filter(fn($cat) => ($cat->category_id == 2));
+        $desserts = $products->filter(fn($cat) => ($cat->category_id == 3));
+        $drinks = $products->filter(fn($cat) => ($cat->category_id == 4));
+        $otherProducts = ['Užkandžiai' => $snacks, 'Desertai' => $desserts, 'Gėrimai' => $drinks];
+
+        foreach($pizzas as $pizza) {
+            $pizza->variations = $pizza->getVariations;
+        }
+
+        return view('buyer.index', compact('products','pizzas', 'otherProducts'));
     }
 
     /**
@@ -46,7 +65,8 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
-        //
+
+        
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Variation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
 
 class VariationController extends Controller
 {
@@ -57,8 +59,10 @@ class VariationController extends Controller
      */
     public function edit(Variation $variation)
     {
-        //
+        
+        $ht
     }
+    
 
     /**
      * Update the specified resource in storage.

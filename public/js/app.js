@@ -19341,6 +19341,8 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 if (document.querySelector('#add_variations')) {
@@ -19422,6 +19424,23 @@ function priceCheck(value) {
   }
 
   return true;
+}
+
+if (document.querySelector('.pizza-button')) {
+  document.querySelectorAll('.pizza-button').forEach(function (button) {
+    return button.addEventListener('click', expandPizza);
+  });
+  document.querySelectorAll('.product-image').forEach(function (image) {
+    return image.addEventListener('click', expandPizza);
+  });
+}
+
+function expandPizza(e) {
+  console.log(e.target.getAttribute('data-id'));
+  var index = parseInt(e.target.getAttribute('data-id'));
+  console.log(_typeof(index));
+  console.log(index);
+  console.log(allProducts[index - 1]);
 }
 
 /***/ }),
