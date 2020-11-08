@@ -95,7 +95,7 @@ Edit Product {{ucfirst($product->title)}}
             accept="image/png, image/jpeg, image/jpg, image/bmp"
         >
         @if ($product->photo)
-            <img src="{{asset('img/products/'.$product->photo) }}" alt="">
+            <img src="{{asset('img/products/'.$product->photo) }}" alt="" class="h-40">
         @endif
     </div>
     

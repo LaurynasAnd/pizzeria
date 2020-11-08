@@ -44,6 +44,7 @@ Product {{ucfirst($product->title)}}
                 <form action="{{$product->category == 'pizza' ? route('product.destroy_pizza', $product) : route('product.destroy', $product)}}" 
                         method="post" 
                         class="w-1/2">
+                        @csrf
                     <button class="bg-orange-400 hover:bg-orange-600 text-white w-full text-xl font-bold mr-2 mt-6 py-3 px-4 rounded-full flex items-center justify-center cursor-pointer"
                         type="submit">
                         DELETE
@@ -90,6 +91,7 @@ Product {{ucfirst($product->title)}}
                         <form action="{{route('variation.destroy', $var)}}" 
                                 method="post" 
                                 class="w-1/2">
+                                @csrf
                             <button class="bg-orange-400 hover:bg-orange-600 text-white w-full text-xs font-bold mr-2 my-6 py-1 px-4 rounded-full flex items-center justify-center cursor-pointer"
                                 type="submit">
                                 DELETE

@@ -19379,6 +19379,10 @@ if (document.querySelector('#add_variations')) {
 if (document.querySelector('#product_form')) {
   var form = document.querySelector('#product_form');
   form.addEventListener('submit', function (e) {
+    // e.preventDefault();
+    // console.log(e.target.querySelector('input[name="photo"]').value);
+    // const pictures = e.target.querySelectorAll('input[name="v_photo[]"]');
+    // pictures.forEach(pic => console.log(pic.value));
     var inputs = e.target.querySelectorAll('input.price');
     inputs.forEach(function (input) {
       if (!priceCheck(input.value)) {

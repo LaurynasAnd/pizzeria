@@ -35,6 +35,10 @@ if(document.querySelector('#add_variations')){
 if(document.querySelector('#product_form')){
     const form = document.querySelector('#product_form');
     form.addEventListener('submit', e => {
+        // e.preventDefault();
+        // console.log(e.target.querySelector('input[name="photo"]').value);
+        // const pictures = e.target.querySelectorAll('input[name="v_photo[]"]');
+        // pictures.forEach(pic => console.log(pic.value));
         const inputs = e.target.querySelectorAll('input.price');
         inputs.forEach(input => {
             if(!priceCheck(input.value)){
@@ -42,6 +46,7 @@ if(document.querySelector('#product_form')){
             }
         });
     });
+    
 }
 
 function deleteVariation(e)  {

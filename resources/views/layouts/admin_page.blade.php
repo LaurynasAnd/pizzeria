@@ -184,7 +184,7 @@
                 <div class="w-full ">
 
                     <!-- {{-- messages --}} -->
-                    <!-- @include('layouts.messages') -->
+                    @include('layouts.messages')
 
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <div class="py-6 px-3 bg-white border-b border-gray-200">

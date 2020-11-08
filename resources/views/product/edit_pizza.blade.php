@@ -5,9 +5,10 @@ Edit Pizza {{ucfirst($pizza->title)}}
 @endsection
 
 @section('content')
+<script> const createPizzaVariation="{{route('product.edit_pizza_variation')}}"</script>
 <form   id="product_form" 
         method="POST" 
-        {{-- action="{{route('product.update_pizza', [$pizza])}}"  --}}
+        action="{{route('product.update_pizza', [$pizza])}}" 
         class="flex flex-col  justify-center" 
         enctype="multipart/form-data"
 >
@@ -162,14 +163,28 @@ Edit Pizza {{ucfirst($pizza->title)}}
                         <img class="w-40" src="{{asset('img/products/'.$var->photo) }}" alt="">
                     @endif
                 </div>
-                <input type="hidden" name="v[]" value="1">
+                <input type="hidden" name="v[]" value="{{$var->id}}">
             </section>
 
         @endforeach
     </div>
+    @else
+
+    <div id="variations"></div>
+
     @endif
     
+    <button type="button" 
+        id="add_variations"
+        class="bg-orange-400 hover:bg-orange-600 text-base text-white font-bold w-full mt-4 py-2 px-4  rounded-md flex items-center justify-center cursor-pointer focus:outline-none "
+        >
 
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <span>Add Variation</span>
+
+    </button>
 
 
 
@@ -182,7 +197,7 @@ Edit Pizza {{ucfirst($pizza->title)}}
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        <span>Add Pizza</span>
+        <span>Edit Pizza</span>
 
     </button>
 </form>

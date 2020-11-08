@@ -80,6 +80,7 @@ class VariationController extends Controller
      */
     public function destroy(Variation $variation)
     {
-        //
+        $variation->delete();
+        return redirect()->back()->with('success_message', 'Variation successfully deleted');
     }
 }

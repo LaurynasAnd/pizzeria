@@ -60,7 +60,6 @@ New Pizza
                 id="description" 
                 name="description"
                 cols="30" rows="2"
-                placeholder="Describe Pizza"
         >{{old('description')}}</textarea>
     </div>
     <div class="w-full rounded">

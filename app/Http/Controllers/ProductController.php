@@ -82,7 +82,7 @@ class ProductController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $name = $request->file('photo')->getClientOriginalName();
-            $destinationPath = public_path('/img');
+            $destinationPath = public_path('/img/products');
             $image->move($destinationPath, $name);
             $product->photo = $name;
         }
@@ -94,7 +94,7 @@ class ProductController extends Controller
         $product = new Product;
 
         $product->title = $request->title;
-        $product->description = $request->description;
+        $product->description = $request->description ? $request->description : '';
         $product->photo = '';
         $product->price = $request->price;
         $product->discount_price = $request->discount_price;
@@ -102,7 +102,7 @@ class ProductController extends Controller
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $name = $request->file('photo')->getClientOriginalName();
-            $destinationPath = public_path('/img');
+            $destinationPath = public_path('/img/products');
             $image->move($destinationPath, $name);
             $product->photo = $name;
         }
@@ -111,17 +111,17 @@ class ProductController extends Controller
         if(isset($request->v)){
             foreach($request->v as $key => $_){
                 $variation = new Variation;
-                $variation->description = $request->v_description[$key];
+                $variation->description = $request->v_description[$key] ? $request->v_description[$key] : '';
                 $variation->photo = '';
                 $variation->price = $request->v_price[$key];
                 $variation->discount_price = $request->v_discount_price[$key];
                 $variation->size_id = $request->v_size_id[$key];
                 $variation->size_id = $request->v_size_id[$key];
                 $variation->product_id = $product->id;
-                if ($request->hasFile('v_photo['.$key.']')) {
-                    $image = $request->file('v_photo['.$key.']');
-                    $name = $request->file('v_photo['.$key.']')->getClientOriginalName();
-                    $destinationPath = public_path('/img');
+                if ($request->hasFile('v_photo.'.$key)) {
+                    $image = $request->file('v_photo.'.$key);
+                    $name = $request->file('v_photo.'.$key)->getClientOriginalName();
+                    $destinationPath = public_path('/img/products');
                     $image->move($destinationPath, $name);
                     $variation->photo = $name;
                 }
@@ -191,11 +191,82 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        
+        $product->title = $request->title;
+        $product->description = $request->description ? $request->description : '';
+        $product->photo = '';
+        $product->price = $request->price;
+        $product->discount_price = $request->discount_price;
+        $product->category_id = $request->category_id;
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $name = $request->file('photo')->getClientOriginalName();
+            $destinationPath = public_path('/img/products');
+            $image->move($destinationPath, $name);
+            $product->photo = $name;
+        }
+        $product->save();
+
+        return redirect()->route('product.index')->with('success_message', 'Product successfully updated');
     }
     public function updatePizza(Request $request, Product $product)
     {
-        //
+        $product->title = $request->title;
+        $product->description = $request->description ? $request->description : '';
+        $product->price = $request->price;
+        $product->discount_price = $request->discount_price;
+        $product->category_id = Category::where('title', 'pizza')->first()->id;
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $name = $request->file('photo')->getClientOriginalName();
+            $destinationPath = public_path('/img/products');
+            $image->move($destinationPath, $name);
+            $product->photo = $name;
+        }
+        $product->save();
+        
+        if(isset($request->v)){
+            
+            foreach($request->v as $key => $id){
+                $variation = (Variation::where('id', $id)->get())[0];
+                $variation->description = $request->v_description[$key] ? $request->v_description[$key] : '';
+                $variation->price = $request->v_price[$key];
+                $variation->discount_price = $request->v_discount_price[$key];
+                $variation->size_id = $request->v_size_id[$key];
+                $variation->size_id = $request->v_size_id[$key];
+                $variation->product_id = $product->id;
+                if ($request->hasFile('v_photo.'.$key)) {
+                    $image = $request->file('v_photo.'.$key);
+                    $name = $request->file('v_photo.'.$key)->getClientOriginalName();
+                    $destinationPath = public_path('/img/products');
+                    $image->move($destinationPath, $name);
+                    $variation->photo = $name;
+                }
+                $variation->save();
+            }
+        }
+        if(isset($request->vn)){
+
+            foreach($request->vn as $key => $_){
+                $variation = new Variation;
+                $variation->description = $request->vn_description[$key] ? $request->vn_description[$key] : '';
+                $variation->photo = '';
+                $variation->price = $request->vn_price[$key];
+                $variation->discount_price = $request->vn_discount_price[$key];
+                $variation->size_id = $request->vn_size_id[$key];
+                $variation->size_id = $request->vn_size_id[$key];
+                $variation->product_id = $product->id;
+                if ($request->hasFile('vn_photo.'.$key)) {
+                    $image = $request->file('vn_photo.'.$key);
+                    $name = $request->file('vn_photo.'.$key)->getClientOriginalName();
+                    $destinationPath = public_path('/img/products');
+                    $image->move($destinationPath, $name);
+                    $variation->photo = $name;
+                }
+                $variation->save();
+            }
+        }
+        return redirect()->route('product.index')->with('success_message', 'Pizza successfully updated');
     }
 
     /**
@@ -206,6 +277,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('product.index')->with('success_message', 'Product successfully deleted');
+    }
+    
+    public function destroyPizza(Product $product){
+        if($product->getVariations){
+            foreach($product->getVariations as $variation){
+                $variation->delete();
+            }
+        }
+        $product->delete();
+        return redirect()->route('product.index')->with('success_message', 'Pizza successfully deleted');
     }
 }
