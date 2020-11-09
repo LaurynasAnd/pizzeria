@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="http://localhost/pizzeria/public/css/app.css">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     
     <!-- Livewire Styles -->
     
